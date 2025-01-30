@@ -1,0 +1,11 @@
+---
+- name: Install list of packages
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    pkg:
+      - apt-transport-https
+      - unzip
+      - zsh
+    state: present
+  become: true
