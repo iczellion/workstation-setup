@@ -1,0 +1,26 @@
+---
+- name: remove old signing key
+  apt_key:
+    id: "7fa2af80"
+    state: absent
+
+- name: add CUDA keyring
+  apt:
+    deb: "https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb"
+    state: "present"
+  become: true
+
+- name: Install list of packages
+  ansible.builtin.apt:
+    update_cache: yes
+    pkg:
+      - cuda-toolkit
+    state: present
+  become: true
+
+- name: Set environment variable script
+  template:
+    src: nvidia-settings.sh.j2
+    dest: "/etc/profile.d/nvidia-settings.sh"
+    mode: '0744'
+  become: true

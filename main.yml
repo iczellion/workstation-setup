@@ -24,3 +24,7 @@
     - name: Install kubectl
       import_tasks: tasks/kubectl.yml
       tags: ['kubectl']
+
+    - name: Install nvidia drivers
+      import_tasks: tasks/nvidia.yml
+      tags: ['nvidia']
