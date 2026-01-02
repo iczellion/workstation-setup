@@ -1,17 +1,17 @@
 ---
 - name: Install Docker repository into sources list
   block:
-    - name: Get signing key
-      ansible.builtin.get_url:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        dest: /etc/apt/keyrings/docker.gpg
+    - name: Get signing key and dearmor it
+      ansible.builtin.shell:
+        cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        creates: /etc/apt/keyrings/docker.gpg
 
     - name: Change file ownership, group and permissions
       ansible.builtin.file:
         path: /etc/apt/keyrings/docker.gpg
         owner: root
         group: root
-        mode: '0777'
+        mode: '0644'
 
     - name: Add source
       ansible.builtin.apt_repository:
