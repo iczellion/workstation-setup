@@ -1,0 +1,36 @@
+---
+- name: Install nvm
+  ansible.builtin.shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: Install latest Node.js via nvm
+  ansible.builtin.shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+
+    if ! nvm ls node | grep -q 'node'; then
+      nvm install node
+    fi
+  args:
+    executable: /bin/bash
+
+- name: Set default Node version
+  ansible.builtin.shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source "$NVM_DIR/nvm.sh"
+
+    if ! nvm alias default | grep -q 'node'; then
+      nvm alias default node
+    fi
+  args:
+    executable: /bin/bash
+
+- name: Ensure nvm is loaded in bashrc
+  ansible.builtin.shell: |
+    grep -qxF 'export NVM_DIR="$HOME/.nvm"' ~/.bashrc || \
+      echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
+
+    grep -qxF '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' ~/.bashrc || \
+      echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' >> ~/.bashrc

@@ -17,6 +17,10 @@
       import_tasks: tasks/systempkgs.yml
       tags: ['system']
 
+    - name: Install nvm for Node.JS
+      import_tasks: tasks/node.yml
+      tags: ['node']
+
     - name: Install Docker
       import_tasks: tasks/docker.yml
       tags: ['docker']

@@ -1,4 +1,4 @@
-# dotfiles
+# Workstation setup
 My dotfiles configuration and bootstrapping scripts
 
 
