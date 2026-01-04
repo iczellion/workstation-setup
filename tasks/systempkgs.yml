@@ -6,6 +6,7 @@
     pkg:
       - apt-transport-https
       - tmux
+      - tree
       - unzip
       - zsh
     state: present
